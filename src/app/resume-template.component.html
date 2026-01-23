@@ -1,0 +1,73 @@
+<section class="resume-template">
+  <header>
+    <h1>{{ name() }}</h1>
+    <h2>{{ title() }}</h2>
+  </header>
+  <section class="summary">
+    <h3>Resumo</h3>
+    <p>{{ summary() }}</p>
+  </section>
+  <section class="experience">
+    <h3>Experiência Profissional</h3>
+    <ul>
+      @for (job of experience(); track job.company){
+        <li>
+        <strong>{{ job.role }}</strong> — {{ job.company }} ({{ job.period }})<br />
+        <span>{{ job.description }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+  <section class="education">
+    <h3>Educação</h3>
+    <ul>
+      @for (edu of education(); track edu.institution){
+          <li>
+            <strong>{{ edu.degree }}</strong> — {{ edu.institution }} ({{ edu.period }})
+          </li>
+      }
+    </ul>
+  </section>
+  <section class="skills">
+    <h3>Competências</h3>
+    <ul>
+      @for (skill of skills(); track skill){
+          <li>{{ skill }}</li>
+      }
+    </ul>
+  </section>
+
+  <section class="projetos">
+    <h3>Projetos</h3>
+    <ul>
+      @for (project of projects(); track project.name){
+        <li>
+            <strong>{{project.name}}</strong> - {{project.company}}<br />
+            <span>{{project.description}}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+    <section class="social-media">
+    <ul>
+      @for (project of socialMedia(); track project.name){
+        <li>
+            <strong>{{project.name}}</strong> - {{project.url}}<br />
+        </li>
+      }
+    </ul>
+  </section>
+
+      <section class="languagens">
+    <h3>Idiomas</h3>
+    <ul>
+      @for (project of languagens(); track project.name){
+        <li>
+            <strong>{{project.name}}</strong> - {{project.level}}<br />
+        </li>
+      }
+    </ul>
+  </section>
+
+</section>
