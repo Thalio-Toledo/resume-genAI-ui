@@ -1,0 +1,53 @@
+<div class="form-container">
+  <h2>Languages</h2>
+  <p>Add your language proficiencies</p>
+
+  <form [formGroup]="languageForm" (ngSubmit)="addLanguage()" class="form-section">
+    <div class="form-field">
+      <label for="name">Language Name</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="e.g., English, Portuguese, Spanish"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="languageForm.get('name')?.invalid && languageForm.get('name')?.touched">
+        Language name is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="level">Proficiency Level</label>
+      <select
+        id="level"
+        formControlName="level"
+        class="w-full"
+      >
+        <option value="Basic">Basic</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Fluent">Fluent</option>
+        <option value="Native">Native</option>
+      </select>
+    </div>
+
+    <p-button label="Add Language" (click)="addLanguage()" [disabled]="languageForm.invalid"/>
+
+  </form>
+
+  <div class="languages-list" *ngIf="languageList.length > 0">
+    <h3>Added Languages</h3>
+    <div class="language-item" *ngFor="let lang of languageList; let i = index">
+      <div class="language-info">
+        <p><strong>{{ lang.name }}</strong></p>
+        <p class="text-gray-600 text-sm">{{ lang.level }}</p>
+      </div>
+      <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="removeLanguage(i)"/>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <p-button label="Skip" (click)="onSkip()" />
+    <p-button label="Save and Continue" (click)="onSubmit()"/>
+  </div>
+</div>

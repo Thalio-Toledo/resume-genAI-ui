@@ -1,0 +1,120 @@
+.form-container {
+  max-width: 600px;
+
+  h2 {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 1.5rem;
+  }
+
+  > p {
+    color: #666;
+    margin-bottom: 24px;
+  }
+}
+
+.form-section {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  input {
+    padding: 10px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: #2196f3;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: #f44336;
+    }
+  }
+
+  small {
+    font-size: 0.85rem;
+    color: #f44336;
+    margin-top: 4px;
+  }
+}
+
+.skills-list {
+  margin-bottom: 24px;
+
+  h3 {
+    margin-bottom: 16px;
+    color: #333;
+    font-size: 1.1rem;
+  }
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border-left: 4px solid #2196f3;
+  margin-bottom: 12px;
+  gap: 12px;
+
+  .skill-info {
+    flex: 1;
+
+    p {
+      margin: 4px 0;
+      font-size: 0.95rem;
+
+      strong {
+        color: #333;
+      }
+
+      &.text-gray-600 {
+        color: #666;
+      }
+
+      &.text-sm {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+:host ::ng-deep {
+  .p-button {
+    padding: 10px 30px;
+    font-size: 1rem;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+}

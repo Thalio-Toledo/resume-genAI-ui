@@ -1,0 +1,97 @@
+<div class="form-container">
+  <h2>Education</h2>
+  <p>Add your educational background</p>
+
+  <form [formGroup]="educationForm" (ngSubmit)="addEducation()" class="form-section">
+    <div class="form-field">
+      <label for="institution">Institution</label>
+      <input
+        pInputText
+        id="institution"
+        formControlName="institution"
+        placeholder="Enter institution name"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="educationForm.get('institution')?.invalid && educationForm.get('institution')?.touched">
+        Institution name is required
+      </small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="degree">Degree</label>
+        <input
+          pInputText
+          id="degree"
+          formControlName="degree"
+          placeholder="e.g., Bachelor, Master"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="educationForm.get('degree')?.invalid && educationForm.get('degree')?.touched">
+          Degree is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="field">Field of Study</label>
+        <input
+          pInputText
+          id="field"
+          formControlName="field"
+          placeholder="e.g., Computer Science"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="educationForm.get('field')?.invalid && educationForm.get('field')?.touched">
+          Field is required
+        </small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="start_date">Start Date</label>
+        <input
+          type="date"
+          id="start_date"
+          formControlName="start_date"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="educationForm.get('start_date')?.invalid && educationForm.get('start_date')?.touched">
+          Start date is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="end_date">End Date</label>
+        <input
+          type="date"
+          id="end_date"
+          formControlName="end_date"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="educationForm.get('end_date')?.invalid && educationForm.get('end_date')?.touched">
+          End date is required
+        </small>
+      </div>
+    </div>
+
+    <p-button label="Add Education" (click)="addEducation()" [disabled]="educationForm.invalid"/>
+  </form>
+
+  <div class="educations-list" *ngIf="educationList.length > 0">
+    <h3>Added Education</h3>
+    <div class="education-item" *ngFor="let edu of educationList; let i = index">
+      <div class="education-info">
+        <p><strong>{{ edu.institution }}</strong></p>
+        <p class="text-gray-600 text-sm">{{ edu.degree }} in {{ edu.field }}</p>
+        <p class="text-sm">{{ edu.start_date }} - {{ edu.end_date }}</p>
+      </div>
+      <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeEducation(edu)"/>  
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Save and Continue" (click)="onSubmit()"/>
+  </div>
+</div>

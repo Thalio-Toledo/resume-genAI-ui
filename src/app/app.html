@@ -1,3 +1,12 @@
+<!-- 
+<resume-template /> -->
 
-<resume-template />
+<div class="app-header">
+    <p-toggleswitch [(ngModel)]="darkMode" (onChange)="toggleTheme()"  />
+    
+    <span>{{ darkMode ? 'Dark' : 'Light' }}</span>
+</div>
+
+
+<router-outlet></router-outlet>
 

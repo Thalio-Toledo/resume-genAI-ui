@@ -1,18 +1,23 @@
 <section class="resume-template">
   <header>
-    <h1>{{ name() }}</h1>
-    <h2>{{ title() }}</h2>
+    <h1>{{ profile().name }}</h1>
+    <ul>
+      @for (contact of profile().contacts; track $index){
+        <li> <strong>Email: </strong>{{ contact.email }} 
+        <li><strong>Telefone: </strong> {{ contact.phone_number }}</li>
+      }
+    </ul>
+    
   </header>
   <section class="summary">
     <h3>Resumo</h3>
-    <p>{{ summary() }}</p>
+    <p>{{  profile().description }}</p>
   </section>
   <section class="experience">
     <h3>Experiência Profissional</h3>
     <ul>
-      @for (job of experience(); track job.company){
-        <li>
-        <strong>{{ job.role }}</strong> — {{ job.company }} ({{ job.period }})<br />
+      @for (job of profile().experiences; track job.company){
+        <li> <strong>{{ job.company }}</strong> - {{ job.role }} — ({{ job.start_date | date:'dd/MM/yyyy'}})<br />
         <span>{{ job.description }}</span>
         </li>
       }
@@ -21,9 +26,9 @@
   <section class="education">
     <h3>Educação</h3>
     <ul>
-      @for (edu of education(); track edu.institution){
+      @for (edu of profile().educations; track edu.institution){
           <li>
-            <strong>{{ edu.degree }}</strong> — {{ edu.institution }} ({{ edu.period }})
+            <strong>{{ edu.degree }}</strong> — {{ edu.institution }} ({{ edu.start_date  | date:'dd/MM/yyyy' }})
           </li>
       }
     </ul>
@@ -31,8 +36,8 @@
   <section class="skills">
     <h3>Competências</h3>
     <ul>
-      @for (skill of skills(); track skill){
-          <li>{{ skill }}</li>
+      @for (skill of profile().skills; track skill){
+          <li>{{ skill.name }}</li>
       }
     </ul>
   </section>
@@ -40,9 +45,9 @@
   <section class="projetos">
     <h3>Projetos</h3>
     <ul>
-      @for (project of projects(); track project.name){
+      @for (project of profile().projects; track project.name){
         <li>
-            <strong>{{project.name}}</strong> - {{project.company}}<br />
+            <strong>{{project.name}}</strong><br />
             <span>{{project.description}}</span>
         </li>
       }
@@ -50,21 +55,22 @@
   </section>
 
     <section class="social-media">
+      <h3>Social Medias</h3>
     <ul>
-      @for (project of socialMedia(); track project.name){
+      @for (socialMedia of profile().socialMedias; track $index){
         <li>
-            <strong>{{project.name}}</strong> - {{project.url}}<br />
+            <strong>{{socialMedia.platform}}</strong> - {{socialMedia.link}}<br />
         </li>
       }
     </ul>
   </section>
 
-      <section class="languagens">
+  <section class="languagens">
     <h3>Idiomas</h3>
     <ul>
-      @for (project of languagens(); track project.name){
+      @for (language of profile().languages; track $index){
         <li>
-            <strong>{{project.name}}</strong> - {{project.level}}<br />
+            <strong>{{language.name}}</strong> - {{language.level}}<br />
         </li>
       }
     </ul>

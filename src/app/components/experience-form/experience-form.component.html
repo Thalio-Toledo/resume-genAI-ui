@@ -1,0 +1,110 @@
+<div class="form-container">
+  <h2>Work Experience</h2>
+  <p>Add your professional experience</p>
+
+  <form [formGroup]="experienceForm" (ngSubmit)="addExperience()" class="form-section">
+    <div class="form-field">
+      <label for="company">Company Name</label>
+      <input
+        pInputText
+        id="company"
+        formControlName="company"
+        placeholder="Enter company name"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="experienceForm.get('company')?.invalid && experienceForm.get('company')?.touched">
+        Company name is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="role">Job Title</label>
+      <input
+        pInputText
+        id="role"
+        formControlName="role"
+        placeholder="Enter job title"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="experienceForm.get('role')?.invalid && experienceForm.get('role')?.touched">
+        Job title is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Job Description</label>
+      <textarea
+
+        id="description"
+        formControlName="description"
+        placeholder="Describe your responsibilities and achievements"
+        rows="4"
+        class="w-full"
+      ></textarea>
+      <small class="text-red-500" *ngIf="experienceForm.get('description')?.invalid && experienceForm.get('description')?.touched">
+        Description is required and must have at least 10 characters
+      </small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="start_date">Start Date</label>
+        <input
+          type="date"
+          id="start_date"
+          formControlName="start_date"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="experienceForm.get('start_date')?.invalid && experienceForm.get('start_date')?.touched">
+          Start date is required
+        </small>
+      </div>
+
+      <div class="form-field">
+        <label for="end_date">End Date</label>
+        <input
+          type="date"
+          id="end_date"
+          formControlName="end_date"
+          class="w-full"
+        />
+        <small class="text-red-500" *ngIf="experienceForm.get('end_date')?.invalid && experienceForm.get('end_date')?.touched">
+          End date is required (unless current job)
+        </small>
+      </div>
+    </div>
+
+    <div class="form-field checkbox-field">
+      <input
+        type="checkbox"
+        id="is_current"
+        formControlName="is_current"
+        (change)="onCurrentJobChange($event)"
+      />
+      <label for="is_current">I currently work here</label>
+    </div>
+
+    <p-button label="Add Experience" (click)="addExperience()" [disabled]="experienceForm.invalid"/>
+  </form>
+
+  <div class="experiences-list" *ngIf="experienceList.length > 0">
+    <h3>Added Experiences</h3>
+    <div class="experience-item" *ngFor="let exp of experienceList; let i = index">
+      <div class="experience-info">
+        <p><strong>{{ exp.company }}</strong> - {{ exp.role }}</p>
+        <p class="text-gray-600 text-sm">
+          {{ exp.start_date }} 
+          <span *ngIf="!exp.is_current">to {{ exp.end_date }}</span>
+          <span *ngIf="exp.is_current">(Current)</span>
+        </p>
+        <p class="text-sm mt-2">{{ exp.description }}</p>
+      </div>
+      <p-button icon="pi pi-trash" severity="danger" [text]="true" (click)="removeExperience(exp)"/>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Save and Continue" (click)="onSubmit()"/>
+  </div>
+</div>

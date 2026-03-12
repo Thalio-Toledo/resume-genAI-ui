@@ -1,0 +1,71 @@
+<div class="form-container">
+  <h2>Certifications</h2>
+  <p>Add your professional certifications</p>
+
+  <form [formGroup]="certificationForm" (ngSubmit)="addCertification()" class="form-section">
+    <div class="form-field">
+      <label for="name">Certification Name</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="e.g., AWS Certified Solutions Architect"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="certificationForm.get('name')?.invalid && certificationForm.get('name')?.touched">
+        Certification name is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="issuer">Issuing Organization</label>
+      <input
+        pInputText
+        id="issuer"
+        formControlName="issuer"
+        placeholder="e.g., Amazon Web Services"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="certificationForm.get('issuer')?.invalid && certificationForm.get('issuer')?.touched">
+        Issuing organization is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="date_issued">Date Issued</label>
+      <input
+        type="date"
+        id="date_issued"
+        formControlName="date_issued"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="certificationForm.get('date_issued')?.invalid && certificationForm.get('date_issued')?.touched">
+        Date issued is required
+      </small>
+    </div>
+
+    <button
+      type="button"
+      (click)="addCertification()"
+      class="btn btn-info"
+      [disabled]="certificationForm.invalid"
+    >Add Certification</button>
+  </form>
+
+  <div class="certifications-list" *ngIf="certificationList.length > 0">
+    <h3>Added Certifications</h3>
+    <div class="certification-item" *ngFor="let cert of certificationList; let i = index">
+      <div class="certification-info">
+        <p><strong>{{ cert.name }}</strong></p>
+        <p class="text-gray-600 text-sm">{{ cert.issuer }}</p>
+        <p class="text-sm">{{ cert.date_issued }}</p>
+      </div>
+      <p-button icon="pi pi-trash" (click)="removeCertification(cert)"/>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Save"(click)="onSubmit()"/>
+  </div>
+</div>

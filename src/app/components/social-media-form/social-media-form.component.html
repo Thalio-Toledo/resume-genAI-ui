@@ -1,0 +1,90 @@
+<div class="form-container">
+  <h2>Social Media</h2>
+  <p>Add your social media profiles and links</p>
+
+  <form [formGroup]="socialMediaForm" (ngSubmit)="addSocialMedia()" class="form-section">
+    <div class="form-field">
+      <label for="platform">Platform</label>
+      <select
+        id="platform"
+        formControlName="platform"
+        class="w-full"
+      >
+        <option value="LinkedIn">LinkedIn</option>
+        <option value="GitHub">GitHub</option>
+        <option value="Twitter">Twitter</option>
+        <option value="Portfolio">Portfolio</option>
+        <option value="Facebook">Facebook</option>
+        <option value="Instagram">Instagram</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label for="handle">Username/Handle</label>
+      <input
+        pInputText
+        id="handle"
+        formControlName="handle"
+        placeholder="e.g., johndoe"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="socialMediaForm.get('handle')?.invalid && socialMediaForm.get('handle')?.touched">
+        Username is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="link">Profile Link</label>
+      <input
+        pInputText
+        id="link"
+        type="url"
+        formControlName="link"
+        placeholder="https://linkedin.com/in/johndoe"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="socialMediaForm.get('link')?.invalid && socialMediaForm.get('link')?.touched">
+        Profile link is required
+      </small>
+    </div>
+
+    <button
+      type="button"
+      (click)="addSocialMedia()"
+      class="btn btn-info"
+      [disabled]="socialMediaForm.invalid"
+    >Add Social Media</button>
+  </form>
+
+  <div class="social-medias-list" *ngIf="socialMediaList.length > 0">
+    <h3>Added Social Media</h3>
+    <div class="social-media-item" *ngFor="let social of socialMediaList; let i = index">
+      <div class="social-media-info">
+        <p><strong>{{ social.platform }}</strong></p>
+        <p class="text-gray-600 text-sm">@{{ social.handle }}</p>
+        <p class="text-sm">
+          <a [href]="social.link" target="_blank">Visit Profile</a>
+        </p>
+      </div>
+      <button
+        type="button"
+        (click)="removeSocialMedia(i)"
+        class="btn btn-sm btn-danger"
+      >Delete</button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button
+      type="button"
+      (click)="onSkip()"
+      class="btn btn-secondary"
+    >Skip</button>
+    <button
+      type="button"
+      (click)="onSubmit()"
+      class="btn btn-success"
+    >Finish Registration</button>
+  </div>
+</div>

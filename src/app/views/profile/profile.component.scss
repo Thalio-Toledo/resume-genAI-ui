@@ -1,0 +1,11 @@
+.profile-container{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+
+    .card-container{
+        display: flex;
+        justify-content: space-between;
+    }
+}

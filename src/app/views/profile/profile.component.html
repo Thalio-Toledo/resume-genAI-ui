@@ -1,0 +1,21 @@
+
+@if(loading()){
+    <p-progress-spinner ariaLabel="loading" />
+}
+@if(error()){
+    <div>{{ error() }}</div>
+}
+
+<div class="profile-container">
+    @for (profile of profiles(); track $index) {
+        <p-card [header]="profile.name">
+            <div class="card-container">
+                {{ profile.description}}
+                <div>
+                    <p-button icon="pi pi-ellipsis-v" [rounded]="true" [text]="true" (click)="menu.toggle($event)" />
+                    <p-tieredmenu #menu [model]="profile.menu" [popup]="true" />
+                </div>
+            </div>
+        </p-card>
+    }
+</div>

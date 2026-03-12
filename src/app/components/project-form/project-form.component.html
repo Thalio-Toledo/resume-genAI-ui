@@ -1,0 +1,88 @@
+<div class="form-container">
+  <h2>Projects</h2>
+  <p>Add your notable projects</p>
+
+  <form [formGroup]="projectForm" (ngSubmit)="addProject()" class="form-section">
+    <div class="form-field">
+      <label for="name">Project Name</label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        placeholder="Enter project name"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="projectForm.get('name')?.invalid && projectForm.get('name')?.touched">
+        Project name is required
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="description">Project Description</label>
+      <textarea
+
+        id="description"
+        formControlName="description"
+        placeholder="Describe the project, your role, and technologies used"
+        rows="4"
+        class="w-full"
+      ></textarea>
+      <small class="text-red-500" *ngIf="projectForm.get('description')?.invalid && projectForm.get('description')?.touched">
+        Description is required and must have at least 10 characters
+      </small>
+    </div>
+
+    <div class="form-field">
+      <label for="link">Project Link</label>
+      <input
+        pInputText
+        id="link"
+        type="url"
+        formControlName="link"
+        placeholder="https://github.com/username/project"
+        class="w-full"
+      />
+      <small class="text-red-500" *ngIf="projectForm.get('link')?.invalid && projectForm.get('link')?.touched">
+        Project link is required
+      </small>
+    </div>
+
+    <button
+      type="button"
+      (click)="addProject()"
+      class="btn btn-info"
+      [disabled]="projectForm.invalid"
+    >Add Project</button>
+  </form>
+
+  <div class="projects-list" *ngIf="projectList.length > 0">
+    <h3>Added Projects</h3>
+    <div class="project-item" *ngFor="let proj of projectList; let i = index">
+      <div class="project-info">
+        <p><strong>{{ proj.name }}</strong></p>
+        <p class="text-sm">{{ proj.description }}</p>
+        <p class="text-gray-600 text-sm">
+          <a [href]="proj.link" target="_blank">View Project</a>
+        </p>
+      </div>
+      <button
+        type="button"
+        (click)="removeProject(i)"
+        class="btn btn-sm btn-danger"
+      >Delete</button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button
+      type="button"
+      (click)="onSkip()"
+      class="btn btn-secondary"
+    >Skip</button>
+    <button
+      type="button"
+      (click)="onSubmit()"
+      class="btn btn-primary"
+    >Save and Continue</button>
+  </div>
+</div>
