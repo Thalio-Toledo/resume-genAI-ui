@@ -29,7 +29,7 @@ export class LanguageFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.languageList = [...this.languages];
+    this.languageList = [...this.languages?? []];
   }
 
   initializeForm() {

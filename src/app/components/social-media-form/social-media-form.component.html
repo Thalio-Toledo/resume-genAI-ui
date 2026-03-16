@@ -49,42 +49,34 @@
       </small>
     </div>
 
-    <button
-      type="button"
-      (click)="addSocialMedia()"
-      class="btn btn-info"
-      [disabled]="socialMediaForm.invalid"
-    >Add Social Media</button>
+    <p-button label="Add Social Media" (click)="addSocialMedia()" [disabled]="socialMediaForm.invalid"/>
   </form>
 
-  <div class="social-medias-list" *ngIf="socialMediaList.length > 0">
-    <h3>Added Social Media</h3>
-    <div class="social-media-item" *ngFor="let social of socialMediaList; let i = index">
-      <div class="social-media-info">
-        <p><strong>{{ social.platform }}</strong></p>
-        <p class="text-gray-600 text-sm">@{{ social.handle }}</p>
-        <p class="text-sm">
-          <a [href]="social.link" target="_blank">Visit Profile</a>
-        </p>
-      </div>
-      <button
-        type="button"
-        (click)="removeSocialMedia(i)"
-        class="btn btn-sm btn-danger"
-      >Delete</button>
-    </div>
-  </div>
+
+ 
+ 
+   @if (socialMediaList.length > 0) {
+     <div class="social-medias-list" >
+       <h3>Added Social Media</h3>
+        @for (social of socialMediaList; track $index) {
+          <div class="social-media-item">
+            <div class="social-media-info">
+              <p><strong>{{ social.platform }}</strong></p>
+              <p class="text-gray-600 text-sm">@{{ social.handle }}</p>
+              <p class="text-sm">
+                <a [href]="social.link" target="_blank">Visit Profile</a>
+              </p>
+            </div>
+            <p-button icon="pi pi-trash" [text]="true" severity="danger"  (click)="removeSocialMedia(social)"/>
+          </div>
+
+        }
+     </div>
+
+  }
 
   <div class="form-actions">
-    <button
-      type="button"
-      (click)="onSkip()"
-      class="btn btn-secondary"
-    >Skip</button>
-    <button
-      type="button"
-      (click)="onSubmit()"
-      class="btn btn-success"
-    >Finish Registration</button>
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Finish Registration" (click)="onSubmit()"/>
   </div>
 </div>

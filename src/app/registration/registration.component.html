@@ -139,7 +139,8 @@
 
                             <app-project-form
                                 [projects]="profile().projects"
-                                (projectsAdded)="onProjectsAdded($event)">
+                                (projectsAdded)="onProjectsAdded($event)"
+                                (projectRemoved)="deleteProject($event)">
                             </app-project-form>
                          </div>
                          <div class="py-6">

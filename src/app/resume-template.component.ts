@@ -12,13 +12,14 @@ import { SkillService } from './services/skill.service';
 import { SocialMediaService } from './services/social-media.service';
 import { Profile } from './models/profile.model';
 import { DatePipe } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'resume-template',
   templateUrl: './resume-template.component.html',
   styleUrls: ['./resume-template.component.scss'],
   imports:[DatePipe],
-  providers:[MessageService, ],
+  providers:[MessageService, ProgressSpinnerModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResumeTemplateComponent {

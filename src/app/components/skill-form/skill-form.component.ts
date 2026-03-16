@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Skill } from '../../models/skill.model';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-skill-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   templateUrl: './skill-form.component.html',
   styleUrls: ['./skill-form.component.scss'],
 })
@@ -29,7 +30,7 @@ export class SkillFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.skillList = [...this.skills];
+    this.skillList = [...this.skills?? []];
   }
 
   initializeForm() {

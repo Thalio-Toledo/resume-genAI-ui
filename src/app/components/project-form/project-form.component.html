@@ -47,12 +47,7 @@
       </small>
     </div>
 
-    <button
-      type="button"
-      (click)="addProject()"
-      class="btn btn-info"
-      [disabled]="projectForm.invalid"
-    >Add Project</button>
+    <p-button label="Add Project" (click)="addProject()" [disabled]="projectForm.invalid"/>
   </form>
 
   <div class="projects-list" *ngIf="projectList.length > 0">
@@ -65,24 +60,12 @@
           <a [href]="proj.link" target="_blank">View Project</a>
         </p>
       </div>
-      <button
-        type="button"
-        (click)="removeProject(i)"
-        class="btn btn-sm btn-danger"
-      >Delete</button>
+     <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="removeProject(proj)"/>
     </div>
   </div>
 
   <div class="form-actions">
-    <button
-      type="button"
-      (click)="onSkip()"
-      class="btn btn-secondary"
-    >Skip</button>
-    <button
-      type="button"
-      (click)="onSubmit()"
-      class="btn btn-primary"
-    >Save and Continue</button>
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Save" (click)="onSubmit()"/>
   </div>
 </div>

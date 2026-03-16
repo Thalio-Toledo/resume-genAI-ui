@@ -2,14 +2,28 @@
   max-width: 700px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
+  //background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   color: #222;
   font-family: 'Segoe UI', Arial, sans-serif;
+
+  header{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .resume-template-container{
+    display: flex;
+    justify-content: space-between;
+
+    .resume-template-content{
+      width: 60%;
+    }
+  }
 }
 .resume-template header {
-  border-bottom: 2px solid #eee;
+  //border-bottom: 2px solid #eee;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
 }

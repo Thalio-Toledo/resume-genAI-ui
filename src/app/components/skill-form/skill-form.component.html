@@ -31,12 +31,7 @@
       </select>
     </div>
 
-    <button
-      type="button"
-      (click)="addSkill()"
-      class="btn btn-info"
-      [disabled]="skillForm.invalid"
-    >Add Skill</button>
+    <p-button label="Add Skill" (click)="addSkill()" [disabled]="skillForm.invalid"/>
   </form>
 
   <div class="skills-list" *ngIf="skillList.length > 0">
@@ -46,24 +41,12 @@
         <p><strong>{{ skill.name }}</strong></p>
         <p class="text-gray-600 text-sm">{{ skill.level }}</p>
       </div>
-      <button
-        type="button"
-        (click)="removeSkill(skill)"
-        class="btn btn-sm btn-danger"
-      >Delete</button>
+      <p-button icon="pi pi-trash" [text]="true" severity="danger" (click)="removeSkill(skill)"/>
     </div>
   </div>
 
   <div class="form-actions">
-    <button
-      type="button"
-      (click)="onSkip()"
-      class="btn btn-secondary"
-    >Skip</button>
-    <button
-      type="button"
-      (click)="onSubmit()"
-      class="btn btn-primary"
-    >Save and Continue</button>
+    <p-button label="Skip" (click)="onSkip()"/>
+    <p-button label="Save" (click)="onSubmit()"/>
   </div>
-</div>
+</div>  

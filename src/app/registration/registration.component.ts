@@ -343,10 +343,10 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  async deleteProject(projectId: number) {
+  async deleteProject(project: Project) {
     try {
-      await this.projectService.delete(projectId);
-      this.profile().projects = this.profile().projects.filter(p => p.project_id !== projectId);
+      await this.projectService.delete(project.project_id);
+      this.profile().projects = this.profile().projects.filter(p => p.project_id !== project.project_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto removido' });
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao remover projeto' });

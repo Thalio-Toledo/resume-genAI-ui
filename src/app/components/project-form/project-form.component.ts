@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Project } from '../../models/project.model';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-project-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.scss'],
 })
 export class ProjectFormComponent implements OnInit {
   @Input() projects: Project[] = [];
   @Output() projectsAdded = new EventEmitter<Project[]>();
+  @Output() projectRemoved = new EventEmitter<Project>();
 
   projectForm!: FormGroup;
   projectList: Project[] = [];
@@ -22,7 +24,7 @@ export class ProjectFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.projectList = [...this.projects];
+    this.projectList = [...this.projects?? []];
   }
 
   initializeForm() {
@@ -41,8 +43,9 @@ export class ProjectFormComponent implements OnInit {
     }
   }
 
-  removeProject(index: number) {
-    this.projectList.splice(index, 1);
+  removeProject(project: Project) {
+    this.projectList.splice(this.projectList.indexOf(project), 1);
+    this.projectRemoved.emit(project)
   }
 
   onSubmit() {

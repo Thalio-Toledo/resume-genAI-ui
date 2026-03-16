@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { SocialMedia } from '../../models/socialMedia.model';
+import { Button, ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-social-media-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ButtonModule],
   templateUrl: './social-media-form.component.html',
   styleUrls: ['./social-media-form.component.scss'],
 })
 export class SocialMediaFormComponent implements OnInit {
   @Input() socialMedias: SocialMedia[] = [];
   @Output() socialMediasAdded = new EventEmitter<SocialMedia[]>();
+  @Output() socialMediaRemoved = new EventEmitter<SocialMedia>();
 
   socialMediaForm!: FormGroup;
   socialMediaList: SocialMedia[] = [];
@@ -50,8 +52,9 @@ export class SocialMediaFormComponent implements OnInit {
     }
   }
 
-  removeSocialMedia(index: number) {
-    this.socialMediaList.splice(index, 1);
+  removeSocialMedia(socialMedia: SocialMedia) {
+    this.socialMediaList.splice(this.socialMediaList.indexOf(socialMedia), 1);
+    this.socialMediaRemoved.emit(socialMedia)
   }
 
   onSubmit() {

@@ -27,8 +27,7 @@ export class ExperienceFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    if(this.experiences == null) this.experiences = []
-    this.experienceList = [...this.experiences];
+    this.experienceList = [...this.experiences?? []];
   }
 
   initializeForm() {

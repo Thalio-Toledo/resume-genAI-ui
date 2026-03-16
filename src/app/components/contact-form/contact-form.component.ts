@@ -24,7 +24,7 @@ export class ContactFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.contactList = [...this.contacts];
+    this.contactList = [...this.contacts?? []];
   }
 
   initializeForm() {

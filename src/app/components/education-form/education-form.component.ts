@@ -24,7 +24,7 @@ export class EducationFormComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-    this.educationList = [...this.educations];
+    this.educationList = [...this.educations?? []];
   }
 
   initializeForm() {

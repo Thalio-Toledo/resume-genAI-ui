@@ -44,12 +44,7 @@
       </small>
     </div>
 
-    <button
-      type="button"
-      (click)="addCertification()"
-      class="btn btn-info"
-      [disabled]="certificationForm.invalid"
-    >Add Certification</button>
+    <p-button label="Add Certification" (click)="addCertification()"[disabled]="certificationForm.invalid"/>
   </form>
 
   <div class="certifications-list" *ngIf="certificationList.length > 0">
