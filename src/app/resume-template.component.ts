@@ -13,19 +13,26 @@ import { SocialMediaService } from './services/social-media.service';
 import { Profile } from './models/profile.model';
 import { DatePipe } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FormsModule } from '@angular/forms';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ButtonModule } from 'primeng/button';
+import { RoleDescription } from './dtos/roleDescription.dto';
+import { Resume } from './dtos/resume.dto';
 
 @Component({
   selector: 'resume-template',
   templateUrl: './resume-template.component.html',
   styleUrls: ['./resume-template.component.scss'],
-  imports:[DatePipe],
-  providers:[MessageService, ProgressSpinnerModule],
+  imports:[DatePipe, ProgressSpinnerModule, FormsModule, FloatLabelModule, ButtonModule],
+  providers:[MessageService, ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResumeTemplateComponent {
   loading = signal<boolean>(true)
   profile = signal<Profile>(null)
 
+  description: string
+  resume = signal<Resume>(null)
 
 
   constructor(
@@ -63,47 +70,23 @@ export class ResumeTemplateComponent {
     })
   }
 
-  name = signal('');
-  title = signal('');
-  summary = signal('');
-  experience = signal<Array<{ company: string; role: string; period: string; description: string }>>([]);
-  education = signal<Array<{ institution: string; degree: string; period: string }>>([]);
-  projects = signal<Array<{name: string; company: string;description: string;}>>([
-  {
-    name: 'Societário Digital',
-    company: 'Confirp',
-    description: 'Sistema de gestão de certidões empresariais.'
-  },
-  {
-    name: 'Workflow',
-    company: 'Confirp',
-    description: 'Sistema de gerenciamento de tarefas e controle de fluxos.'
-  },
-  {
-    name: 'Storm ORM',
-    company: 'Pessoal',
-    description: 'Sistema de mapeamento objeto-relacional e consultas SQL.'
+  generateResume(){
+    this.loading.set(true);
+    this.profileService
+    .generate({description: this.description, profile_Id: this.profile().profile_id} as RoleDescription)
+    .subscribe({
+      next: data=>{
+        this.resume.set(data)
+        this.profile.set(data.profile)
+        console.log(this.profile())
+      },
+      // error: err => {
+      //     this.error.set('Erro ao carregar profiles');
+      // },
+      complete: () => {
+        this.loading.set(false);
+      }
+    })
   }
-]); 
-  skills = signal<string[]>([]);
-  socialMedia = signal<Array<{name: string; url: string}>>([{name: 'LinkedIn', url: 'https://www.linkedin.com/in/thalio-toledo-a7825023b/'}]);
-  languagens = signal<Array<{name: string; level: string}>>([{name: 'Português', level: 'Nativo'}, {name: 'Inglês', level: 'Avançado'}]);
 
-
-  setProfile(   
-    name:  string,
-    title: string,
-    summary: string,
-    experience: Array<{ company: string; role: string; period: string; description: string }>,
-    education: Array<{ institution: string; degree: string; period: string }>,
-    skills: string[]
-    ){
-        this.name.set(name);
-        this.title.set(title);
-        this.summary.set(summary);
-
-        this.experience.set(experience);
-        this.education.set(education);
-        this.skills.set(skills);
-    }
 }

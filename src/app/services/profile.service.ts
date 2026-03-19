@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { Profile } from '../models/profile.model';
 import { UrlBuilder } from '../../utils/urlBuilder';
 import { CommService } from '../core/services/comm.service';
+import { RoleDescription } from '../dtos/roleDescription.dto';
+import { Resume } from '../dtos/resume.dto';
 
 
 @Injectable({
@@ -46,6 +48,15 @@ export class ProfileService {
       .build();
 
     return await this._commService.post<Profile>(url, profile);
+  }
+
+  generate(roleDescription: RoleDescription) {
+    const url = UrlBuilder.from(this.apiUrl)
+      .addRoute('profiles')
+      .addRoute('generate')
+      .build();
+
+    return this.http.post<Resume>(url, roleDescription);
   }
 
   async update(profile: Profile) {
