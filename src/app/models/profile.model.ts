@@ -2,7 +2,6 @@
 import { MenuItem } from 'primeng/api';
 import { BaseModel } from './base.model';
 import { Certification } from './certification.model';
-import { Contact } from './contact.model';
 import { Education } from './education.model';
 import { Experience } from './experience.model';
 import { Language } from './language.model';
@@ -18,7 +17,6 @@ export class Profile extends BaseModel {
   phone_number!: string;
   description!: string;
 
-  contacts: Contact[] = [];
   experiences: Experience[] = [];
   educations: Education[] = [];
   skills: Skill[] = [];

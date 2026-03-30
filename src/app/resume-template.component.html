@@ -1,115 +1,126 @@
-  <p-floatlabel variant="on">
-    <textarea pTextarea id="on_label" [(ngModel)]="description" rows="5" cols="30" style="resize: none" class="h-full"></textarea>
-    <label for="on_label">Job Description</label>
-</p-floatlabel>
 
-<p-button label="Generate Resume" severity="info" (click)="generateResume()"/>
 
-@if(loading()){
-    carregando...
-}@else {
-  @if(resume()){
-    <p>Match: {{resume().match}}%</p>
+<div class="resume-template-generator">
+
+  <div class="resume-template-actions">
+    <p-floatlabel variant="on">
+        <textarea pTextarea id="on_label" [(ngModel)]="description" rows="5" cols="30" style="resize: none" class="h-full"></textarea>
+        <label for="on_label">Job Description</label>
+    </p-floatlabel>
+    
+    <p-button label="Generate Resume" severity="info" (click)="generateResume()"/>
   
-    @for (skillRequired of resume().skillsRequired; track $index) {
-      <p-button [label]="skillRequired.name" severity="info"/>
-  
-    }
-
-  }
-
-
-  <section class="resume-template">
-    <header>
-      <h1>{{ profile().name }}</h1>
-      <ul>
-        @for (contact of profile().contacts; track $index){
-          <li> <strong>Email: </strong>{{ contact.email }} 
-          <li><strong>Telefone: </strong> {{ contact.phone_number }}</li>
+    <div class="resume-template-skill">
+      @if(resume()){
+          <p>Match: {{resume().match}}%</p>
+        
+          @for (skillRequired of resume().skillsRequired; track $index) {
+            <p-button [label]="skillRequired.name" severity="info"/>
+          }
         }
-      </ul>
+    </div>
+  </div>
+
+  @if(loading()){
+      carregando...
+  }@else {
+    
+  
+  
+    <section class="resume-template">
+      <header>
+        <h1>{{ profile().name }}</h1>
+        <!-- <ul>
+          @for (contact of profile().contacts; track $index){
+            <li> <strong>Email: </strong>{{ contact.email }} 
+            <li><strong>Telefone: </strong> {{ contact.phone_number }}</li>
+          }
+        </ul> -->
+        
+      </header>
+  
+      <section class="resume-template-container">
+  
+        <section class="resume-template-content">
+          <section class="summary">
+            <h3>Resumo</h3>
+            <p>{{  profile().description }}</p>
+          </section>
       
-    </header>
-
-    <section class="resume-template-container">
-
-      <section class="resume-template-content">
-        <section class="summary">
-          <h3>Resumo</h3>
-          <p>{{  profile().description }}</p>
-        </section>
-    
-        <section class="experience">
-          <h3>Experiência Profissional</h3>
-          <ul>
-            @for (job of profile().experiences; track job.company){
-              <li> <strong>{{ job.company }}</strong> - {{ job.role }} — ({{ job.start_date | date:'dd/MM/yyyy'}})<br />
-              <span>{{ job.description }}</span>
-              </li>
-            }
-          </ul>
-        </section>
-    
-        <section class="education">
-          <h3>Educação</h3>
-          <ul>
-            @for (edu of profile().educations; track edu.institution){
-                <li>
-                  <strong>{{ edu.degree }}</strong> — {{ edu.institution }} ({{ edu.start_date  | date:'dd/MM/yyyy' }})
+          <section class="experience">
+            <h3>Experiência Profissional</h3>
+            <ul>
+              @for (job of profile().experiences; track job.company){
+                <li> <strong>{{ job.company }}</strong> - {{ job.role }} — ({{ job.start_date | date:'dd/MM/yyyy'}})<br />
+                <span>{{ job.description }}</span>
                 </li>
-            }
-          </ul>
-        </section>
-  
-        <section class="projetos">
-          <h3>Projetos</h3>
-          <ul>
-            @for (project of profile().projects; track project.name){
-              <li>
-                  <strong>{{project.name}}</strong><br />
-                  <span>{{project.description}}</span>
-              </li>
-            }
-          </ul>
-        </section>
+              }
+            </ul>
+          </section>
       
-        <section class="social-media">
-            <h3>Social Medias</h3>
-          <ul>
-            @for (socialMedia of profile().socialMedias; track $index){
-              <li>
-                  <strong>{{socialMedia.platform}}</strong> - {{socialMedia.link}}<br />
-              </li>
-            }
-          </ul>
+          <section class="education">
+            <h3>Educação</h3>
+            <ul>
+              @for (edu of profile().educations; track edu.institution){
+                  <li>
+                    <strong>{{ edu.degree }}</strong> — {{ edu.institution }} ({{ edu.start_date  | date:'dd/MM/yyyy' }})
+                  </li>
+              }
+            </ul>
+          </section>
+    
+          <section class="projetos">
+            <h3>Projetos</h3>
+            <ul>
+              @for (project of profile().projects; track project.name){
+                <li>
+                    <strong>{{project.name}}</strong><br />
+                    <span>{{project.description}}</span>
+                </li>
+              }
+            </ul>
+          </section>
+        
+          <section class="social-media">
+              <h3>Social Medias</h3>
+            <ul>
+              @for (socialMedia of profile().socialMedias; track $index){
+                <li>
+                    <strong>{{socialMedia.platform}}</strong> - {{socialMedia.link}}<br />
+                </li>
+              }
+            </ul>
+          </section>
+        
+          <section class="languagens">
+            <h3>Idiomas</h3>
+            <ul>
+              @for (language of profile().languages; track $index){
+                <li>
+                    <strong>{{language.name}}</strong> - {{language.level}}<br />
+                </li>
+              }
+            </ul>
+          </section>
+    
         </section>
-      
-        <section class="languagens">
-          <h3>Idiomas</h3>
-          <ul>
-            @for (language of profile().languages; track $index){
-              <li>
-                  <strong>{{language.name}}</strong> - {{language.level}}<br />
-              </li>
-            }
-          </ul>
+    
+        <section class="skills">
+            <h3>Competências</h3>
+            <ul>
+              @for (skill of profile().skills; track skill){
+                  <li>{{ skill.name }}</li>
+              }
+            </ul>
         </section>
-  
       </section>
   
-      <section class="skills">
-          <h3>Competências</h3>
-          <ul>
-            @for (skill of profile().skills; track skill){
-                <li>{{ skill.name }}</li>
-            }
-          </ul>
-      </section>
+  
+    
     </section>
-
-
   
-  </section>
+  }
+</div>
 
-}
+
 

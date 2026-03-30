@@ -1,15 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, Signal, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { CertificationService } from './services/certification.service';
-import { ContactService } from './services/contact.service';
-import { EducationService } from './services/education.service';
-import { ExperienceService } from './services/experience.service';
-import { LanguageService } from './services/language.service';
-import { ProfileService } from './services/profile.service';
-import { ProjectService } from './services/project.service';
-import { SkillService } from './services/skill.service';
-import { SocialMediaService } from './services/social-media.service';
 import { Profile } from './models/profile.model';
 import { DatePipe } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -18,6 +9,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { RoleDescription } from './dtos/roleDescription.dto';
 import { Resume } from './dtos/resume.dto';
+import { ProfileService } from './services/profile.service';
 
 @Component({
   selector: 'resume-template',
@@ -37,14 +29,6 @@ export class ResumeTemplateComponent {
 
   constructor(
     private profileService: ProfileService,
-    private contactService: ContactService,
-    private experienceService: ExperienceService,
-    private educationService: EducationService,
-    private skillService: SkillService,
-    private certificationService: CertificationService,
-    private projectService: ProjectService,
-    private languageService: LanguageService,
-    private socialMediaService: SocialMediaService,
     private messageService: MessageService,
     private route: ActivatedRoute
   ) {}

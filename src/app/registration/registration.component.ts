@@ -4,7 +4,6 @@ import { StepsModule } from 'primeng/steps';
 import { MenuItem } from 'primeng/api';
 import { ProfileFormComponent } from '../components/profile-form/profile-form.component';
 import { Profile } from '../models/profile.model';
-import { Contact } from '../models/contact.model';
 import { Experience } from '../models/experience.model';
 import { Education } from '../models/education.model';
 import { Skill } from '../models/skill.model';
@@ -13,7 +12,6 @@ import { Project } from '../models/project.model';
 import { Language } from '../models/language.model';
 import { SocialMedia } from '../models/socialMedia.model';
 import { ButtonModule } from 'primeng/button';
-import { ContactFormComponent } from "../components/contact-form/contact-form.component";
 import { ExperienceFormComponent } from "../components/experience-form/experience-form.component";
 import { EducationFormComponent } from "../components/education-form/education-form.component";
 import { SkillFormComponent } from "../components/skill-form/skill-form.component";
@@ -23,14 +21,6 @@ import { LanguageFormComponent } from "../components/language-form/language-form
 import { SocialMediaFormComponent } from "../components/social-media-form/social-media-form.component";
 import { StepperModule } from 'primeng/stepper';
 import { ProfileService } from '../services/profile.service';
-import { ContactService } from '../services/contact.service';
-import { ExperienceService } from '../services/experience.service';
-import { EducationService } from '../services/education.service';
-import { SkillService } from '../services/skill.service';
-import { CertificationService } from '../services/certification.service';
-import { ProjectService } from '../services/project.service';
-import { LanguageService } from '../services/language.service';
-import { SocialMediaService } from '../services/social-media.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
@@ -44,7 +34,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     StepsModule,
     ButtonModule,
     ProfileFormComponent,
-    ContactFormComponent,
     ExperienceFormComponent,
     EducationFormComponent,
     SkillFormComponent,
@@ -70,14 +59,6 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
-    private contactService: ContactService,
-    private experienceService: ExperienceService,
-    private educationService: EducationService,
-    private skillService: SkillService,
-    private certificationService: CertificationService,
-    private projectService: ProjectService,
-    private languageService: LanguageService,
-    private socialMediaService: SocialMediaService,
     private messageService: MessageService,
     private route: ActivatedRoute
   ) {}
@@ -148,39 +129,7 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  // CONTACTS CRUD
-  async onContactsAdded(contacts: Contact[]) {
-    try {
-      this.loading.set(true);
-      for (const contact of contacts) {
-        if (contact.contact_id) {
-          await this.contactService.update(contact);
-        } else {
-          contact.profile_id = this.profile().profile_id
-          await this.contactService.create(contact);
-        }
-      }
-      this.profile().contacts = contacts;
-      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Contatos salvos' });
-      this.nextStep();
-    } catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao salvar contatos' });
-      console.error('Erro ao salvar contatos:', error);
-    } finally {
-      this.loading.set(false);
-    }
-  }
 
-  async deleteContact(contact: Contact) {
-    try {
-      await this.contactService.delete(contact.contact_id);
-      this.profile().contacts = this.profile().contacts.filter(c => c.contact_id !== contact.contact_id);
-      this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Contato removido' });
-    } catch (error) {
-      this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao remover contato' });
-      console.error('Erro ao remover contato:', error);
-    }
-  }
 
   // EXPERIENCES CRUD
   async onExperiencesAdded(experiences: Experience[]) {
@@ -188,10 +137,10 @@ export class RegistrationComponent implements OnInit {
       this.loading.set(true);
       for (const experience of experiences) {
         if (experience.experience_id) {
-          await this.experienceService.update(experience);
+          await this.profileService.updateExperience(experience);
         } else {
           experience.profile_id = this.profile().profile_id
-          await this.experienceService.create(experience);
+          await this.profileService.addExperience(experience);
         }
       }
       this.profile().experiences = experiences;
@@ -207,7 +156,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteExperience(experience: Experience) {
     try {
-      await this.experienceService.delete(experience.experience_id);
+      await this.profileService.deleteExperience(experience.experience_id);
       this.profile().experiences = this.profile().experiences.filter(e => e.experience_id !== experience.experience_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Experiência removida' });
     } catch (error) {
@@ -222,10 +171,10 @@ export class RegistrationComponent implements OnInit {
      this.loading.set(true);
       for (const education of educations) {
         if (education.education_id) {
-          await this.educationService.update(education);
+          await this.profileService.updateEducation(education);
         } else {
           education.profile_id = this.profile().profile_id
-          await this.educationService.create(education);
+          await this.profileService.addEducation(education);
         }
       }
       this.profile().educations = educations;
@@ -241,7 +190,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteEducation(education: Education) {
     try {
-      await this.educationService.delete(education.education_id);
+      await this.profileService.deleteEducation(education.education_id);
       this.profile().educations = this.profile().educations.filter(e => e.education_id !== education.education_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Educação removida' });
     } catch (error) {
@@ -253,13 +202,13 @@ export class RegistrationComponent implements OnInit {
   // SKILLS CRUD
   async onSkillsAdded(skills: Skill[]) {
     try {
-      this.loading.set(false);
+      this.loading.set(true);
       for (const skill of skills) {
         if (skill.skill_id) {
-          await this.skillService.update(skill);
+          await this.profileService.updateSkill(skill);
         } else {
           skill.profile_id = this.profile().profile_id
-          await this.skillService.create(skill);
+          await this.profileService.addSkill(skill);
         }
       }
       this.profile().skills = skills;
@@ -275,7 +224,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteSkill(skill: Skill) {
     try {
-      await this.skillService.delete(skill.skill_id);
+      await this.profileService.deleteSkill(skill.skill_id);
       this.profile().skills = this.profile().skills.filter(s => s.skill_id !== skill.skill_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Skill removido' });
     } catch (error) {
@@ -290,11 +239,10 @@ export class RegistrationComponent implements OnInit {
       this.loading.set(true);
       for (const certification of certifications) {
         if (certification.certification_id) {
-          await this.certificationService.update(certification);
+          await this.profileService.updateCertification(certification);
         } else {
           certification.profile_id = this.profile().profile_id
-          await this.certificationService.create(certification);
-          certification.profile_id = this.profile().profile_id
+          await this.profileService.addCertification(certification);
         }
       }
       this.profile().certifications = certifications;
@@ -310,7 +258,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteCertification(certification: Certification) {
     try {
-      await this.certificationService.delete(certification.certification_id);
+      await this.profileService.deleteCertification(certification.certification_id);
       this.profile().certifications = this.profile().certifications.filter(c => c.certification_id !== certification.certification_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Certificação removida' });
     } catch (error) {
@@ -325,11 +273,10 @@ export class RegistrationComponent implements OnInit {
       this.loading.set(true);
       for (const project of projects) {
         if (project.project_id) {
-          await this.projectService.update(project);
+          await this.profileService.updateProject(project);
         } else {
-          project.profile_id
-           = this.profile().profile_id
-          await this.projectService.create(project);
+          project.profile_id = this.profile().profile_id
+          await this.profileService.addProject(project);
         }
       }
       this.profile().projects = projects;
@@ -345,7 +292,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteProject(project: Project) {
     try {
-      await this.projectService.delete(project.project_id);
+      await this.profileService.deleteProject(project.project_id);
       this.profile().projects = this.profile().projects.filter(p => p.project_id !== project.project_id);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Projeto removido' });
     } catch (error) {
@@ -360,10 +307,10 @@ export class RegistrationComponent implements OnInit {
       this.loading.set(true);
       for (const language of languages) {
         if (language.language_id) {
-          await this.languageService.update(language);
+          await this.profileService.updateLanguage(language);
         } else {
           language.profile_id = this.profile().profile_id
-          await this.languageService.create(language);
+          await this.profileService.addLanguage(language);
         }
       }
       this.profile().languages = languages;
@@ -379,7 +326,7 @@ export class RegistrationComponent implements OnInit {
 
   async deleteLanguage(languageId: string) {
     try {
-      await this.languageService.delete(languageId);
+      await this.profileService.deleteLanguage(languageId);
       this.profile().languages = this.profile().languages.filter(l => l.language_id !== languageId);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Idioma removido' });
     } catch (error) {
@@ -394,10 +341,10 @@ export class RegistrationComponent implements OnInit {
       this.loading.set(true);
       for (const socialMedia of socialMedias) {
         if (socialMedia.social_media_id) {
-          await this.socialMediaService.update(socialMedia);
+          await this.profileService.updateSocialMedia(socialMedia);
         } else {
           socialMedia.profile_id = this.profile().profile_id
-          await this.socialMediaService.create(socialMedia);
+          await this.profileService.addSocialMedia(socialMedia);
         }
       }
       this.profile().socialMedias = socialMedias;
@@ -411,10 +358,10 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  async deleteSocialMedia(socialMediaId: string) {
+  async deleteSocialMedia(socialMediaId: number) {
     try {
-      await this.socialMediaService.delete(socialMediaId);
-      this.profile().socialMedias = this.profile().socialMedias.filter(s => s.social_media_id.toString() !== socialMediaId);
+      await this.profileService.deleteSocialMedia(socialMediaId);
+      this.profile().socialMedias = this.profile().socialMedias.filter(s => s.social_media_id !== socialMediaId);
       this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Rede social removida' });
     } catch (error) {
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Falha ao remover rede social' });
